@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-
+#import "FaceAndText.h"
 @interface ViewController ()<UITableViewDataSource,UITableViewDelegate>
 
 @end
@@ -17,14 +17,26 @@
     NSArray *msgs;
     
 }
-@synthesize listView;
+@synthesize listView,lableTxt;
 - (void)viewDidLoad {
     [super viewDidLoad];
-    msgs = @[@"短",@"很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长",@"demo_avatar_cook",@"demo_avatar_jobs"];
+    msgs = @[@"短[微笑][微笑][微笑][微笑][微笑][微笑][微笑][微笑][微笑]",@"很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很[微笑]长[微笑][微笑][微笑][微笑][微笑]很长很长很长很长很长很长很长[微笑]很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很[微笑][微笑]长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长[微笑]",@"demo_avatar_cook",@"demo_avatar_jobs"];
     listView.delegate = self;
     listView.dataSource = self;
     listView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
+
+    FaceAndText *faceText = [[FaceAndText alloc] init];
+
+    lableTxt.attributedText = [faceText getAttributedStringFromText:@"123412[可爱]345[哼]67891[哼]234567891[哼][微笑][微笑][微笑][微笑]2345678912345678956789[微笑]"font:[UIFont systemFontOfSize:15] emojiSize:CGSizeMake(32, 32)];
+    [lableTxt sizeToFit];
+    
+    
+//    lableTxt.frame = CGRectMake(52, 72, 200, rect.size.height);
+    UIView *bg = [[UIView alloc] initWithFrame:CGRectMake(52, 72, lableTxt.frame.size.width, lableTxt.frame.size.height)];
+    bg.layer.borderColor = [UIColor redColor].CGColor;
+    bg.layer.borderWidth = 1;
+    [self.view addSubview:bg];
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {

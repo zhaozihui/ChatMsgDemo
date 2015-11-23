@@ -12,6 +12,7 @@
 @interface ViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UITableView *listView;
 @property (weak, nonatomic) IBOutlet MessageCell *cell;
+@property (weak, nonatomic) IBOutlet UILabel *lableTxt;
 
 @end
 
