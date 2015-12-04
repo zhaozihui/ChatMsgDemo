@@ -8,12 +8,14 @@
 
 #import "MessageCell.h"
 #import "FaceAndText.h"
+#define maxHeight 150
 @implementation MessageCell
 @synthesize msgBtn,height,iconImg;
+
 - (void)awakeFromNib {
-    // Initialization code
     msgBtn.titleEdgeInsets = UIEdgeInsetsMake(17, 15, 17, 15);
-   // msgBtn.imageEdgeInsets = UIEdgeInsetsMake(17, 15, 17, 15);
+    iconImg.layer.masksToBounds = YES;
+    iconImg.layer.cornerRadius = iconImg.frame.size.height/2;
 }
 +(instancetype)initCellWithTableView:(UITableView *)tableView isLeft:(BOOL) left{
     
@@ -33,12 +35,20 @@
 {
     if([type isEqualToString:@"img"])
     {
-        UIImage *image = [UIImage imageNamed:@"demo_avatar_cook"];
+        UIImage *image = [UIImage imageNamed:message];
+        CGSize size = image.size;
+        
         CGRect frame = msgBtn.frame;
-        frame.size.height = 150 + 17*2;
-        frame.size.width = 150 + 15*2;
+        if(size.width> size.height) {
+            frame.size.width = maxHeight + 15*2;
+            frame.size.height = maxHeight/size.width *size.height + 17*2;
+        } else {
+            frame.size.height = maxHeight + 17*2;
+            frame.size.width = maxHeight/size.height *size.width + 15*2;
+        }
+        
         UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
-        imageView.frame = CGRectMake(15, 17, 150, 150);
+        imageView.frame = CGRectMake(15, 17, frame.size.width - 15*2, frame.size.height - 17*2);
         msgBtn.frame = frame;
         [msgBtn addSubview:imageView];
         
@@ -61,55 +71,11 @@
         msgBtn.frame = frame;
         [msgBtn addSubview:msgLbl];
        
-//        //[msgBtn setTitle:message forState:UIControlStateNormal];
-//        CGSize size = [Util workOutSizeWithStr:message font:15 maxWith:200-30 maxHeight:999];
-//        if (size.width < 20) {
-//            size.width = 20;
-//        }
-//        
-//        FaceAndTextLabel *_wordLabel=[[FaceAndTextLabel alloc]initWithFrame:CGRectMake(15, 17, size.width, size.height) ];
-//
-//        _wordLabel.backgroundColor=[UIColor clearColor];
-//        [_wordLabel setFaceAndText:message andTextColor:[UIColor whiteColor] andFont:[UIFont systemFontOfSize:15]];
-//        CGSize sizeThatFit=[_wordLabel sizeThatFits:CGSizeZero];
-////        //重新指定frame
-////        _wordLabel.frame=CGRectMake(0, 0, sizeThatFit.width, sizeThatFit.height);
-//        msgBtn.titleLabel.frame  = CGRectMake(15, 17, sizeThatFit.width, sizeThatFit.height);
-//        
-//        
-//        NSMutableAttributedString *attri =     [[NSMutableAttributedString alloc] initWithString:@"哈哈哈哈哈123456789"];
-//        
-//        // 修改富文本中的不同文字的样式
-//        [attri addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:NSMakeRange(0, 5)];
-//        [attri addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:20] range:NSMakeRange(0, 5)];
-//        
-//        // 设置数字为红色
-//        [attri addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(5, 9)];
-//        [attri addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:30] range:NSMakeRange(5, 9)];
-//        
-//        
-//        NSTextAttachment *attch = [[NSTextAttachment alloc] init];
-//        // 表情图片
-//        attch.image = [UIImage imageNamed:@"f001"];
-//        // 设置图片大小
-//        attch.bounds = CGRectMake(0, 0, 32, 32);
-//        
-//        // 创建带有图片的富文本
-//        NSAttributedString *string = [NSAttributedString attributedStringWithAttachment:attch];
-//        [attri appendAttributedString:string];
-//        
-//        // 用label的attributedText属性来使用富文本
-//        msgBtn.titleLabel.attributedText = attri;
-//        //[msgBtn addSubview:_wordLabel];
-//        
-//        CGRect frame = msgBtn.frame;
-//        frame.size.height = 17*2 + _wordLabel.frame.size.height;
-//        frame.size.width = 15*2 + _wordLabel.frame.size.width;
-//        msgBtn.frame = frame;
+
 
 
     }
-        height = msgBtn.frame.size.height;
+    height = msgBtn.frame.size.height;
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

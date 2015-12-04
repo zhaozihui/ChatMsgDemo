@@ -7,7 +7,8 @@
 //
 
 #import "ViewController.h"
-#import "FaceAndText.h"
+#import "BottomInputView.h"
+#define FRAME_SIZE [[UIScreen mainScreen] bounds].size
 @interface ViewController ()<UITableViewDataSource,UITableViewDelegate>
 
 @end
@@ -15,28 +16,69 @@
 @implementation ViewController
 {
     NSArray *msgs;
+    BottomInputView *inputView;
     
 }
 @synthesize listView,lableTxt;
 - (void)viewDidLoad {
     [super viewDidLoad];
-    msgs = @[@"短[微笑][微笑][微笑][微笑][微笑][微笑][微笑][微笑][微笑]",@"很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很[微笑]长[微笑][微笑][微笑][微笑][微笑]很长很长很长很长很长很长很长[微笑]很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很[微笑][微笑]长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长[微笑]",@"demo_avatar_cook",@"demo_avatar_jobs"];
+    msgs = @[@"短[微笑][微笑][微笑][微笑][微笑][微笑][微笑][微笑][微笑]",@"很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很[微笑]长[微笑][微笑][微笑][微笑][微笑]很长很长很长很长很长很长很长[微笑]很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很[微笑][微笑]长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长[微笑]",@"demo_avatar_cook",@"a2.jpg",@"a4.jpg"];
+    listView.frame = CGRectMake(0, 0, FRAME_SIZE.width, FRAME_SIZE.height - 44);
     listView.delegate = self;
     listView.dataSource = self;
     listView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    inputView = [BottomInputView initView];
+    inputView.frame = CGRectMake(0, FRAME_SIZE.height - 44, FRAME_SIZE.width ,44);
     
+    
+    [self.view addSubview:inputView];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillhide:) name:UIKeyboardWillHideNotification object:nil];
+    
+    UITapGestureRecognizer *grAll = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                    action:@selector(view_TouchDown:)];
+    grAll.cancelsTouchesInView = NO;
+    [self.view addGestureRecognizer:grAll];
 
-    FaceAndText *faceText = [[FaceAndText alloc] init];
+}
+- (void)keyboardWillShow:(NSNotification *)notification
+{
+    NSDictionary *info = [notification userInfo];
+    NSValue *value = [info objectForKey:@"UIKeyboardFrameEndUserInfoKey"];
+    CGSize keyboardSize = [value CGRectValue].size;//获取键盘的size值
+    //获取键盘出现的动画时间
+    NSValue *animationDurationValue = [info objectForKey:UIKeyboardAnimationDurationUserInfoKey];
+    NSTimeInterval animationDuration;
+    [animationDurationValue getValue:&animationDuration];
+    CGFloat startY =FRAME_SIZE.height-keyboardSize.height - 44;
 
-    lableTxt.attributedText = [faceText getAttributedStringFromText:@"123412[可爱]345[哼]67891[哼]234567891[哼][微笑][微笑][微笑][微笑]2345678912345678956789[微笑]"font:[UIFont systemFontOfSize:15] emojiSize:CGSizeMake(32, 32)];
-    [lableTxt sizeToFit];
+    NSTimeInterval animation = animationDuration;
+    //视图移动的动画开始
     
+    [UIView animateWithDuration:animation animations:^{
+        inputView.frame = CGRectMake(0, startY, FRAME_SIZE.width ,44);
+    }];
+
+}
+
+
+- (void)keyboardWillhide:(NSNotification *)notification
+{
+    NSDictionary *info = [notification userInfo];
+    //获取键盘出现的动画时间
+    NSValue *animationDurationValue = [info objectForKey:UIKeyboardAnimationDurationUserInfoKey];
+    NSTimeInterval animationDuration;
+    [animationDurationValue getValue:&animationDuration];
+
+    NSTimeInterval animation = animationDuration;
+    //视图移动的动画开始
     
-//    lableTxt.frame = CGRectMake(52, 72, 200, rect.size.height);
-    UIView *bg = [[UIView alloc] initWithFrame:CGRectMake(52, 72, lableTxt.frame.size.width, lableTxt.frame.size.height)];
-    bg.layer.borderColor = [UIColor redColor].CGColor;
-    bg.layer.borderWidth = 1;
-    [self.view addSubview:bg];
+    [UIView animateWithDuration:animation animations:^{
+         inputView.frame = CGRectMake(0, FRAME_SIZE.height - 44, FRAME_SIZE.width ,44);
+    }];
+
+   
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -64,6 +106,9 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+- (void)view_TouchDown:(id)sender {
+    [[UIApplication sharedApplication] sendAction:@selector(resignFirstResponder) to:nil from:nil forEvent:nil];
 }
 
 
