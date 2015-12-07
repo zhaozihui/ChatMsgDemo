@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BottomInputView : UIView
+@interface BottomInputView : UIView<UIScrollViewDelegate>
+@property (weak, nonatomic) IBOutlet UITextField *inputField;
+@property (retain, nonatomic) IBOutlet UIView *emojiView;
+@property (retain, nonatomic) IBOutlet UIView *plusView;
+@property (weak, nonatomic) IBOutlet UIButton *addBtn;
+@property (weak, nonatomic) IBOutlet UIButton *emojiBtn;
 +(instancetype)initView;
+- (void)resetFameKeyboardWillShow:(NSDictionary *)dic;
+- (void)resetFameKeyboardWillHide:(NSDictionary *)dic;
 @end

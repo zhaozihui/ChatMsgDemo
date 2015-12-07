@@ -12,16 +12,13 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Mka-em-9of">
-                    <rect key="frame" x="9" y="8" width="28" height="28"/>
+                    <rect key="frame" x="0.0" y="0.0" width="40" height="44"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <animations/>
                     <state key="normal" image="message_add_nomal.png"/>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="nnP-PK-tcM">
-                    <rect key="frame" x="45" y="8" width="28" height="28"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <animations/>
-                    <state key="normal" image="emoji_btn_nomal.png"/>
+                    <connections>
+                        <action selector="addOtherBtn:" destination="iN0-l3-epB" eventType="touchUpInside" id="vba-me-6Dz"/>
+                    </connections>
                 </button>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" id="6ZR-qj-uc7">
                     <rect key="frame" x="81" y="7" width="185" height="30"/>
@@ -35,12 +32,29 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <animations/>
                     <state key="normal" title="发送"/>
+                    <connections>
+                        <action selector="sendBtn:" destination="iN0-l3-epB" eventType="touchUpInside" id="WPO-0A-gfd"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="nnP-PK-tcM">
+                    <rect key="frame" x="40" y="0.0" width="40" height="44"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <animations/>
+                    <state key="normal" image="emoji_btn_nomal.png"/>
+                    <connections>
+                        <action selector="addEmoji:" destination="iN0-l3-epB" eventType="touchUpInside" id="KGm-Nr-o7d"/>
+                    </connections>
                 </button>
             </subviews>
             <animations/>
             <color key="backgroundColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="calibratedRGB"/>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="addBtn" destination="Mka-em-9of" id="0GS-Ja-LvL"/>
+                <outlet property="emojiBtn" destination="nnP-PK-tcM" id="oPm-Et-f5K"/>
+                <outlet property="inputField" destination="6ZR-qj-uc7" id="Ba5-zI-uRk"/>
+            </connections>
             <point key="canvasLocation" x="293" y="404"/>
         </view>
     </objects>

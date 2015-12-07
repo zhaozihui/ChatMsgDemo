@@ -28,7 +28,7 @@
     listView.dataSource = self;
     listView.separatorStyle = UITableViewCellSeparatorStyleNone;
     inputView = [BottomInputView initView];
-    inputView.frame = CGRectMake(0, FRAME_SIZE.height - 44, FRAME_SIZE.width ,44);
+   
     
     
     [self.view addSubview:inputView];
@@ -39,45 +39,20 @@
     UITapGestureRecognizer *grAll = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                     action:@selector(view_TouchDown:)];
     grAll.cancelsTouchesInView = NO;
-    [self.view addGestureRecognizer:grAll];
+    [listView addGestureRecognizer:grAll];
 
 }
 - (void)keyboardWillShow:(NSNotification *)notification
 {
     NSDictionary *info = [notification userInfo];
-    NSValue *value = [info objectForKey:@"UIKeyboardFrameEndUserInfoKey"];
-    CGSize keyboardSize = [value CGRectValue].size;//获取键盘的size值
-    //获取键盘出现的动画时间
-    NSValue *animationDurationValue = [info objectForKey:UIKeyboardAnimationDurationUserInfoKey];
-    NSTimeInterval animationDuration;
-    [animationDurationValue getValue:&animationDuration];
-    CGFloat startY =FRAME_SIZE.height-keyboardSize.height - 44;
-
-    NSTimeInterval animation = animationDuration;
-    //视图移动的动画开始
-    
-    [UIView animateWithDuration:animation animations:^{
-        inputView.frame = CGRectMake(0, startY, FRAME_SIZE.width ,44);
-    }];
-
+    [inputView resetFameKeyboardWillShow:info];
 }
 
 
 - (void)keyboardWillhide:(NSNotification *)notification
 {
     NSDictionary *info = [notification userInfo];
-    //获取键盘出现的动画时间
-    NSValue *animationDurationValue = [info objectForKey:UIKeyboardAnimationDurationUserInfoKey];
-    NSTimeInterval animationDuration;
-    [animationDurationValue getValue:&animationDuration];
-
-    NSTimeInterval animation = animationDuration;
-    //视图移动的动画开始
-    
-    [UIView animateWithDuration:animation animations:^{
-         inputView.frame = CGRectMake(0, FRAME_SIZE.height - 44, FRAME_SIZE.width ,44);
-    }];
-
+    [inputView resetFameKeyboardWillHide:info];
    
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

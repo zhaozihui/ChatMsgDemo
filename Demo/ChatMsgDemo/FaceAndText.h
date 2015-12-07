@@ -9,5 +9,6 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 @interface FaceAndText : NSObject
+-(NSDictionary *)getFace;
 - (NSMutableAttributedString *)getAttributedStringFromText:(NSString *)text font:(UIFont *)font emojiSize:(CGSize)emojiSize;
 @end
